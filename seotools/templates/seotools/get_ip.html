@@ -1,0 +1,17 @@
+{% extends 'seotools/base.html' %}
+
+{% block body_block %}
+
+<div class="col-sm-6">
+	<p>Ваш IP адрес: </p>
+	{% if ip_adress %}
+		<p>{{ip_adress}}</p>
+	{% endif %}
+</div>
+
+
+<div class="col-sm-6">
+	
+</div>
+
+{% endblock %}

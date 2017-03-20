@@ -1,0 +1,42 @@
+{% extends 'seotools/base.html' %}
+
+
+{% block body_block %}
+
+	<table class="highlight">
+        <thead>
+          <tr>
+			<th data-field="id">URL</th>	
+			<th data-field="id">Status code</th>
+			<th data-field="name">Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+				{% if site %}
+					<p>{{site}}</p>
+				{% endif %}
+            </td>
+            <td>
+				{% if status_code %}
+					<p>{{status_code}}</p>
+				{% endif %}
+            </td>
+            <td>
+				{% if reason %}
+					<p>{{reason}}</p>
+				{% endif %}
+            </td>
+          </tr>
+        </tbody>
+	</table>
+
+	{% if msg %}
+		<p>Message: </p>
+		<p>{{msg}}</p>
+	{% endif %}
+
+
+
+{% endblock %}

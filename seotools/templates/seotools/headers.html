@@ -1,0 +1,20 @@
+{% extends 'seotools/base.html' %}
+
+{% block body_block %}
+
+<div class="row">
+	<form class="col s12" action="/headers" method="post">
+	  <div class="row">
+	    <div id="headers-url" class="input-field col s9">
+			{% csrf_token %}
+			{{ form }}
+			<button id="check-headers" class="btn waves-effect waves-light" type="submit" name="action">Проверить</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+
+
+
+
+{% endblock %}

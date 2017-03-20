@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <title>Seogo - {% block title %} Seo tools {% endblock %}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      
+      <!-- <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" >
+  		<link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}" > 
+      <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,‌​100italic,300,300ita‌​lic,400italic,500,50‌​0italic,700,700itali‌​c,900italic,900' rel='stylesheet' type='text/css'>
+  		<script src="{% static "js/bootstrap.min.js" %}"></script> -->
+
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+      <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+      <link rel="stylesheet" href="{% static "css/custom.css" %}" >
+    </head>
+
+    <body>
+      
+        <main>
+          
+          <nav>
+            <div class="nav-wrapper light-blue darken-1">
+            <a href="/" class="brand-logo center">Logo</a>
+              <ul class="left hide-on-med-and-down">
+                <li><a href="get_ip">Get IP</a></li>
+                <li><a href="headers">Headers</a></li>
+              </ul>
+            </div>
+          </nav>
+
+          <div class="container main">
+          {% block body_block %}{% endblock %}
+          </div>
+        </main>
+
+        <footer class="page-footer light-blue darken-1">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 seogo.top
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+    </body>
+    
+</html>
