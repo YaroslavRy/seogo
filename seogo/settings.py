@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 	'35.157.31.66',
-	'seogo.top'
+	'seogo.top',
+    '127.0.0.1'
 ]
 
 
