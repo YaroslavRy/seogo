@@ -2,10 +2,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 import http.client as httplib
 from .forms import NameForm
+from seotools.models import Metatags
 
 
 def index(request):
-    return render(request, "seotools/index.html")
+	content = {'meta_tags' : get_meta_tags(request)}
+	return render(request, 'seotools/index.html', content)
+
+
+def get_meta_tags(request):
+	uri = str(request.get_full_path())
+	try:
+		meta_tags = Metatags.objects.get(page_uri=uri)
+	except Exception as e:
+		meta_tags = ''
+	return meta_tags
 
 
 def get_ip(request):
@@ -21,7 +32,9 @@ def get_ip(request):
 			print("returning REMOTE_ADDR")
 			ip = request.META.get('REMOTE_ADDR')
 		return ip
-	context = {'ip_adress' : str(get_client_ip(request))}	
+	context = {'ip_adress' : str(get_client_ip(request)),
+		'meta_tags' : get_meta_tags(request)
+	}	
 	return render(request, 'seotools/get_ip.html', context)
 
 
@@ -69,37 +82,43 @@ def headers(request):
 					return HttpResponse("Fuck! " + str(e))
 				else:
 					res = conn.getresponse()
-					# return HttpResponse(# "Here are meta of " 
-					# 	"Results for " 
-					# 	+ host + uri
-					# 	+ ": <br>" 
-					# 	+ "Status code: "
-					# 	+ str(res.status) 
-					# 	+ "<br>" 
-					# 	+ str(res.reason)
-					# 	+ "<br>" 
-					# 	+ str(res.msg)
-					# )
 					site = host + uri
 					status_code = str(res.status) 
 					reason = str(res.reason)
 					msg = str(res.msg)
-					return render(request,'seotools/test.html', {'site' : site, 'status_code' : status_code, 'reason' : reason, 'msg' : msg})
+					return render(
+							request, 
+							'seotools/test.html', 
+							{
+								'site' : site, 
+								'status_code' : status_code, 
+								'reason' : reason, 
+								'msg' : msg
+							}
+						)
 			else:
 				return HttpResponse("empty url")
 	else:
 		form = NameForm()
-	return render(request, 'seotools/headers.html', {'form': form})
+	return render(request, 
+		'seotools/headers.html', 
+		{
+			'form': form,
+			'meta_tags' : get_meta_tags(request)
+		})
 
 
 def about(request):
-	return render(request, 'seotools/about.html')
+	context = {'meta_tags' : get_meta_tags(request)}
+	return render(request, 'seotools/about.html', context)
 
 
 def contact(request):
-	return render(request, 'seotools/contact.html')
+	context = {'meta_tags' : get_meta_tags(request)}
+	return render(request, 'seotools/contact.html', context)
 
 
 def robots(request):
-	return render(request, 'seotools/robots.txt')
+	context = {'meta_tags' : get_meta_tags(request)}
+	return render(request, 'seotools/robots.txt', context)
 
