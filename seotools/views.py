@@ -119,6 +119,5 @@ def contact(request):
 
 
 def robots(request):
-	context = {'meta_tags' : get_meta_tags(request)}
-	return render(request, 'seotools/robots.txt', context)
+	return render(request, 'seotools/robots.txt')
 
