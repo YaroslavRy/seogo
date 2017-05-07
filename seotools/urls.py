@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.http import HttpResponse
 from .import views
 
 urlpatterns = [
@@ -8,5 +9,6 @@ urlpatterns = [
 	url(r'^headers$', views.headers, name='headers'),
 	url(r'^about$', views.about, name='about'),
 	url(r'^contact$', views.contact, name='contact'),
-	url(r'^robots.txt$', views.robots, name='robots'),
+	url(r'^robots.txt$', 
+		lambda r: HttpResponse("User-agent: *\nAllow: * \nDisallow: /admin/*", content_type="text/plain")),
 ]
