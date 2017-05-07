@@ -117,3 +117,8 @@ def contact(request):
 	context = {'meta_tags' : get_meta_tags(request)}
 	return render(request, 'seotools/contact.html', context)
 
+
+def ab_test(request):
+	context = {'meta_tags' : get_meta_tags(request),}
+	return render(request, 'seotools/ab_test.html', context)
+

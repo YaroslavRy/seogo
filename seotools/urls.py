@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^headers$', views.headers, name='headers'),
 	url(r'^about$', views.about, name='about'),
 	url(r'^contact$', views.contact, name='contact'),
+	url(r'^ab_test$', views.ab_test, name='ab_test'),
 	url(r'^robots.txt$', 
 		lambda r: HttpResponse("User-agent: *\nAllow: * \nDisallow: /admin/*", content_type="text/plain")),
 ]
