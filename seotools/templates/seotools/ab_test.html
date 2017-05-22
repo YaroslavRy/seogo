@@ -1,0 +1,96 @@
+{% extends 'seotools/base.html' %}
+
+{% block body_block %}
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $("input").change(function(){
+
+  		var aVisits = $("#a_visits").val();
+  		var bVisits = $("#b_visits").val();
+  		var aGoals = $("#a_conversions").val();
+  		var bGoals = $("#b_conversions").val();
+
+  		var aConversion = aGoals / aVisits;
+  		var bConversion = bGoals / bVisits;
+
+  		aConversion = aConversion * 100;
+  		bConversion = bConversion * 100;
+
+  		aConversion = aConversion.toFixed(2);
+  		bConversion = bConversion.toFixed(2);
+
+      $("#a_conversion").html(aConversion);
+      $("#b_conversion").html(bConversion);
+
+      function changeView() {
+        $.ajax({
+            type: "GET",
+            url: "/chi_square",
+            data:{
+              'aVisits' : aVisits,
+              'bVisits' : bVisits,
+              'aGoals' : aGoals,
+              'bGoals' : bGoals
+            },
+            dataType: 'json',
+            cache: false,
+            success: function(data){
+              var chiStat = data['chi_statistic'];
+              var pValue = data['p_value'];
+
+              chiStat = chiStat.toFixed(2);
+              pValue = pValue.toFixed(18);
+              $('#chi-stat').html(chiStat);
+              $('#p-value').html(pValue);
+            }
+       });
+    }
+
+    changeView()
+
+    });
+});
+</script>
+
+        <table id="ab_table">
+          <thead>
+            <tr>
+              <th class="blank">Группа</th>
+              <th><p class="small_text">Количество визитов:</p></th>
+              <th><p class="small_text">Количество достигнутых целей:</p></th>
+              <th><p class="small_text col3_header">% Конверсия:</p></th>
+            </tr>
+          </thead>
+          <tbody id="ab_table_body">
+            <tr class="row1" id="row1">
+              <th><span id="row1_label" class="row_label"><p>A</p></span></th>  
+              <td><input type="text" class="text" name="a_visits" id="a_visits" value="100"></td>
+              <td class="conversions"><input type="text" class="text" name="a_conversions" id="a_conversions" value="9"></td>
+              <td><strong id="a_conversion">9</strong></td>
+            </tr>
+            <tr id="row2" class="highlight">
+              <th><span id="row2_label" class="row_label row_label_highlight"><p>B</p></span></th>  
+              <td><input type="text" class="text input_highlight" name="b_visits" id="b_visits" value="100"></td>
+              <td class="conversions"><input type="text" class="text input_highlight" name="b_conversions" id="b_conversions" value="12"></td>
+              <td><strong id="b_conversion">12</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+<p>Статистика Хи-квадрат:
+  <p id="chi-stat"></p>
+</p>
+
+<p>p-уровень значимости:
+  <p id="p-value"></p>
+</p>
+
+<div>
+  <img src="simple.png">
+</div>
+
+{% endblock %}
