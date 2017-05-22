@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 import http.client as httplib
 from .forms import NameForm
 from seotools.models import Metatags
-
+from django.http import JsonResponse
+from scipy.stats import chisquare, chi2_contingency
 
 def index(request):
 	content = {'meta_tags' : get_meta_tags(request)}
@@ -122,3 +123,47 @@ def ab_test(request):
 	context = {'meta_tags' : get_meta_tags(request),}
 	return render(request, 'seotools/ab_test.html', context)
 
+
+def chi_square(request):
+	if request.method == "GET":
+		a_visits = int(request.GET['aVisits'])
+		b_visits = int(request.GET['bVisits'])
+		a_goals = int(request.GET['aGoals'])
+		b_goals = int(request.GET['bGoals'])
+		arr = [[a_visits, b_visits], [a_goals, b_goals]]
+		chi_statistic, p_value, ddof, expected = chi2_contingency(arr)
+		response = {'chi_statistic' : chi_statistic,
+			'p_value' : p_value
+		}
+		return JsonResponse(response)
+	else:
+		return HttpResponse('no', content_type='text/html')
+
+
+
+def simple(request):
+	import random
+	import django
+	import datetime
+
+	from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+	from matplotlib.figure import Figure
+	from matplotlib.dates import DateFormatter
+
+	fig=Figure()
+	ax=fig.add_subplot(111)
+	x=[]
+	y=[]
+	now=datetime.datetime.now()
+	delta=datetime.timedelta(days=1)
+	for i in range(10):
+		x.append(now)
+		now+=delta
+		y.append(random.randint(0, 1000))
+	ax.plot_date(x, y, '-')
+	ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+	fig.autofmt_xdate()
+	canvas=FigureCanvas(fig)
+	response=django.http.HttpResponse(content_type='image/png')
+	canvas.print_png(response)
+	return response

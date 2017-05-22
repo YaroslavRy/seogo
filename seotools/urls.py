@@ -10,6 +10,8 @@ urlpatterns = [
 	url(r'^about$', views.about, name='about'),
 	url(r'^contact$', views.contact, name='contact'),
 	url(r'^ab_test$', views.ab_test, name='ab_test'),
+	url(r'^chi_square$', views.chi_square, name='chi_square'),
+	url(r'^simple.png$', views.simple, name='simple'),
 	url(r'^robots.txt$', 
 		lambda r: HttpResponse("User-agent: *\nAllow: * \nDisallow: /admin/*", content_type="text/plain")),
 ]
